@@ -1,0 +1,17 @@
+{
+  "name": "com.bxl.service.phonegap",
+  "version": “1.0.1”,
+  "description": "",
+  "cordova": {
+    "id": "com.bxl.service.phonegap",
+    "platforms": [
+      "android"
+    ]
+  },
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ]
+}
