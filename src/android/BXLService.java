@@ -113,7 +113,7 @@ public class BXLService extends CordovaPlugin {
 
 			posPrinter = new POSPrinter(context);
 		} catch (JposException ex) {
-			logMessages += "," + e.getMessage();
+			logMessages += "," + ex.getMessage();
 		}   
     }
 
@@ -128,11 +128,6 @@ public class BXLService extends CordovaPlugin {
 		logMessages += "1";
         this.setContext(webView.getContext());
     }
-
-
-	public String GetContextError() {
-		return contextError;
-	}
 
     /**
      * image url을 받아서 bitmap을 생성하고 리턴합니다
