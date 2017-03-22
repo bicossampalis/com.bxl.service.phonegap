@@ -103,7 +103,7 @@ public class BXLService extends CordovaPlugin {
 
     public static void setContext(Context context) {
 
-		logMessages += "2";
+		logMessages += ",2";
 
 		try {
 			if (bxlConfigLoader == null) {
@@ -112,6 +112,8 @@ public class BXLService extends CordovaPlugin {
 			}
 
 			posPrinter = new POSPrinter(context);
+			
+			ogMessages += ",3";
 		} 
 		catch (Exception ex1) {
 			logMessages += "," + ex1.getMessage();
@@ -223,9 +225,7 @@ public class BXLService extends CordovaPlugin {
         if (!action.equals(ACTION_EXECUTE_PRINTER)) {
             callbackContext.error("Action is not matched");
             return false;
-        } else {
-			callbackContext.error("aaaaaa");
-		}
+        }
 
         String method = args.getString(0);
         try {
