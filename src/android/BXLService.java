@@ -99,7 +99,7 @@ public class BXLService extends CordovaPlugin {
 
     private String mAddress = "";
 
-	private String logMessages = "";
+	private static String logMessages = "";
 
     public static void setContext(Context context) {
 
