@@ -468,7 +468,7 @@ public class BXLService extends CordovaPlugin {
 					 bxlConfigLoader.addEntry(productName,
                             Integer.parseInt(categoryType),
                             Integer.parseInt(ifType),
-                            address, true);
+                            address, false);
 					logMessages += ", entry added";
 					
                     bxlConfigLoader.saveFile();
