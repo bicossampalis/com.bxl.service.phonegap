@@ -38,6 +38,7 @@ public class BXLService extends CordovaPlugin {
 
     private final String METHOD_GET_CLAIMED = "getClaimed";
     private final String METHOD_GET_DEVICE_ENABLED = "getDeviceEnabled";
+	private final String METHOD_GET_LOG_MESSAGES = "getLogMessages";
     private final String METHOD_SET_DEVICE_ENABLED = "setDeviceEnabled";
     private final String METHOD_GET_OUTPUT_ID = "getOutputID";
     private final String METHOD_GET_POWER_STATE = "getPowerState";
@@ -98,14 +99,22 @@ public class BXLService extends CordovaPlugin {
 
     private String mAddress = "";
 
+	private String logMessages = "";
+
     public static void setContext(Context context) {
 
-        if (bxlConfigLoader == null) {
-			//bxlConfigLoader = new BXLConfigLoader(context);
-            bxlConfigLoader = new MyBXLConfigLoader(context);
-        }
+		logMessages += "2";
 
-        posPrinter = new POSPrinter(context);
+		try {
+			if (bxlConfigLoader == null) {
+				//bxlConfigLoader = new BXLConfigLoader(context);
+				bxlConfigLoader = new MyBXLConfigLoader(context);
+			}
+
+			posPrinter = new POSPrinter(context);
+		} catch (JposException ex) {
+			logMessages += "," + e.getMessage();
+		}   
     }
 
     @Override
@@ -116,9 +125,14 @@ public class BXLService extends CordovaPlugin {
 //			allowedRequests = new Whitelist();
 //			new CustomConfigXmlParser().parse(webView.getContext());
 //		}
+		logMessages += "1";
         this.setContext(webView.getContext());
     }
 
+
+	public String GetContextError() {
+		return contextError;
+	}
 
     /**
      * image url을 받아서 bitmap을 생성하고 리턴합니다
@@ -213,11 +227,16 @@ public class BXLService extends CordovaPlugin {
         if (!action.equals(ACTION_EXECUTE_PRINTER)) {
             callbackContext.error("Action is not matched");
             return false;
-        }
+        } else {
+			callbackContext.error("aaaaaa");
+		}
 
         String method = args.getString(0);
         try {
-            if (method.equals(METHOD_GET_CLAIMED)) {
+		
+			if (method.equals(METHOD_GET_LOG_MESSAGES)) {
+				callbackContext.error(logMessages);
+            } else if (method.equals(METHOD_GET_CLAIMED)) {
                 callbackContext.sendPluginResult(new PluginResult(
                         PluginResult.Status.OK, posPrinter.getClaimed()));
             } else if (method.equals(METHOD_GET_DEVICE_ENABLED)) {

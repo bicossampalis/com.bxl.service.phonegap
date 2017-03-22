@@ -12,6 +12,12 @@
 			cordova.exec(successCallback, errorCallback, "BXLService",
 					"executePrinter", [ "getDeviceEnabled" ]);
 		};
+		
+		BXLService.prototype.getLogMessages = function(successCallback,
+				errorCallback) {
+			cordova.exec(successCallback, errorCallback, "BXLService",
+					"executePrinter", [ "getLogMessages" ]);
+		};
 
 		BXLService.prototype.setDeviceEnabled = function(successCallback,
 				errorCallback, deviceEnabled) {
@@ -20,6 +26,9 @@
 							"executePrinter", [ "setDeviceEnabled",
 									deviceEnabled ]);
 		};
+		
+		
+
 
 		BXLService.prototype.getOutputID = function(successCallback,
 				errorCallback) {
