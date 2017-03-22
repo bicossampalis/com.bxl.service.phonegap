@@ -18,7 +18,8 @@ import org.json.JSONException;
 
 //import com.bxl.jsbridge.JSBridge;
 
-import com.bxl.config.editor.BXLConfigLoader;
+//import com.bxl.config.editor.BXLConfigLoader;
+import bixolon_printer.MyBXLConfigLoader;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -92,14 +93,16 @@ public class BXLService extends CordovaPlugin {
     BluetoothAdapter mBTAdapter;
     Set<BluetoothDevice> pairedDevices;
 
-    private static BXLConfigLoader bxlConfigLoader = null;
+	//private static BXLConfigLoader bxlConfigLoader = null;
+    private static MyBXLConfigLoader bxlConfigLoader = null;
 
     private String mAddress = "";
 
     public static void setContext(Context context) {
 
         if (bxlConfigLoader == null) {
-            bxlConfigLoader = new BXLConfigLoader(context);
+			//bxlConfigLoader = new BXLConfigLoader(context);
+            bxlConfigLoader = new MyBXLConfigLoader(context);
         }
 
         posPrinter = new POSPrinter(context);
@@ -431,13 +434,20 @@ public class BXLService extends CordovaPlugin {
                         JposEntry jposEntry = (JposEntry) entry;
                         bxlConfigLoader.removeEntry(jposEntry.getLogicalName());
                     }
-
+					
+					/*
                     bxlConfigLoader.addEntry((ldn == null || ldn.length() <= 0) ? productName : ldn,
                             Integer.parseInt(categoryType),
                             productName,
                             Integer.parseInt(ifType),
                             address);
-
+					*/
+					
+					 bxlConfigLoader.addEntry(productName,
+                            Integer.parseInt(categoryType),
+                            Integer.parseInt(ifType),
+                            address);
+					
                     bxlConfigLoader.saveFile();
 
                 } catch (JSONException e) {
