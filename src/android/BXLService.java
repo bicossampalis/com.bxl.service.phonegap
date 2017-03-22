@@ -113,7 +113,7 @@ public class BXLService extends CordovaPlugin {
 
 			posPrinter = new POSPrinter(context);
 			
-			ogMessages += ",3";
+			logMessages += ",3";
 		} 
 		catch (Exception ex1) {
 			logMessages += "," + ex1.getMessage();
