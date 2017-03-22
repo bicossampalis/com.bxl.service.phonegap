@@ -101,7 +101,7 @@ public class BXLService extends CordovaPlugin {
 
 	private static String logMessages = "";
 
-    public static void setContext(Context context) {
+    public static void setContext(Context context) throws JSONException {
 
 		logMessages += "2";
 
