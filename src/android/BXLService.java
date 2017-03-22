@@ -426,7 +426,7 @@ public class BXLService extends CordovaPlugin {
                     bxlConfigLoader.saveFile();
 					logMessages += ", save file";
 
-					String entriesLog = bxlConfigLoader.GetJposEntryManagerEntries();
+					String entriesLog = bxlConfigLoader.getJposEntryManagerEntries();
 					logMessages += ",Entries:" + entriesLog;
 					
 					
