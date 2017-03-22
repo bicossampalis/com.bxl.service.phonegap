@@ -405,7 +405,7 @@ public class BXLService extends CordovaPlugin {
                 callbackContext.success();
             }else if (method.equals(METHOD_ADD_ENTRY)) {
                 ///////////////////////////////
-
+callbackContext.error("dsfsadr");
                 try {
 //					JSONArray args = objs.getJSONArray("data");
                     String productName = args.getString(1);
