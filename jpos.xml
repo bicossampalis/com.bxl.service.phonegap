@@ -38,7 +38,7 @@
 	
 	<JposEntry logicalName="SPP-R200" >
         <creation
-            factoryClass="com.bxl.loader.ServiceInstanceFactory"
+            factoryClass="bixolon_printer.MyServiceInstanceFactory"
             serviceClass="bixolon_printer.POSPrinterService1000" />
 
         <vendor
@@ -50,7 +50,7 @@
             version="1.14" />
 
         <product
-            name="SPP-R200II"
+            name="SPP-R200"
             description="Compact yet Rugged 2 inch Thermal Mobile Printer"
             url="http://www.bixolon.com" />
 
