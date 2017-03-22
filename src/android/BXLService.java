@@ -132,21 +132,6 @@ public class BXLService extends CordovaPlugin {
         this.setContext(webView.getContext());
     }
 
-    /**
-     * image url을 받아서 bitmap을 생성하고 리턴합니다
-     *
-     * @param url
-     *            얻고자 하는 image url
-     * @return 생성된 bitmap
-     */
-
-    /**
-     * image url을 받아서 bitmap을 생성하고 리턴합니다
-     *
-     * @param url
-     *            얻고자 하는 image url
-     * @return 생성된 bitmap
-     */
     private Bitmap getBitmap(String url) {
         URL imgUrl = null;
         HttpURLConnection connection = null;
@@ -172,48 +157,12 @@ public class BXLService extends CordovaPlugin {
         }
     }
 
-
-
-    /**
-     * image url을 받아서 bitmap을 생성하고 리턴합니다
-     *
-     * @param url
-     *            얻고자 하는 image url
-     * @return 생성된 bitmap
-     */
-
-    /**
-     * base 64로 encoding 된 image data을 받아서 bitmap을 생성하고 리턴합니다
-     *
-     * @param base64EncodedData
-     *            얻고자 하는 image url
-     * @return 생성된 bitmap
-     */
     private Bitmap getDecodedBitmap(String base64EncodedData) {
 
         byte[] imageAtBytes = Base64.decode(base64EncodedData.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAtBytes, 0, imageAtBytes.length);
     }
 
-
-
-    /**
-     * Executes the request.
-     *
-     * This method is called from the WebView thread. To do a non-trivial amount
-     * of work, use: cordova.getThreadPool().execute(runnable);
-     *
-     * To run on the UI thread, use:
-     * cordova.getActivity().runOnUiThread(runnable);
-     *
-     * @param action
-     *            The action to execute.
-     * @param args
-     *            The exec() arguments.
-     * @param callbackContext
-     *            The callback context used when calling back into JavaScript.
-     * @return Whether the action was valid.
-     */
     @Override
     public boolean execute(final String action, final JSONArray args,
                            final CallbackContext callbackContext) throws JSONException {
