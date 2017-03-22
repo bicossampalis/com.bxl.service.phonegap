@@ -420,7 +420,7 @@ public class BXLService extends CordovaPlugin {
                 callbackContext.success();
             }else if (method.equals(METHOD_ADD_ENTRY)) {
                 ///////////////////////////////
-callbackContext.error("dsfsadr");
+				logMessages = "Add Entry";
                 try {
 //					JSONArray args = objs.getJSONArray("data");
                     String productName = args.getString(1);
@@ -430,6 +430,8 @@ callbackContext.error("dsfsadr");
                     String ldn = null;
                     if (args.length() > 4)
                         ldn = args.getString(4);
+
+					logMessages += ", parsed arguments";
 
                     if (productName == null || categoryType == null || ifType == null || address == null
                             || productName.length() <= 0 || categoryType.length() <= 0 || ifType.length() <= 0
@@ -441,14 +443,18 @@ callbackContext.error("dsfsadr");
 
                     try {
                         bxlConfigLoader.openFile();
+						logMessages += ", opened file";
                     } catch (Exception e) {
                         bxlConfigLoader.newFile();
+						logMessages += ", new file";
                     }
 
                     for (Object entry : bxlConfigLoader.getEntries()) {
                         JposEntry jposEntry = (JposEntry) entry;
                         bxlConfigLoader.removeEntry(jposEntry.getLogicalName());
                     }
+					
+					logMessages += ", removed entries";
 					
 					/*
                     bxlConfigLoader.addEntry((ldn == null || ldn.length() <= 0) ? productName : ldn,
@@ -458,12 +464,15 @@ callbackContext.error("dsfsadr");
                             address);
 					*/
 					
+					logMessages += ", adding entry";
 					 bxlConfigLoader.addEntry(productName,
                             Integer.parseInt(categoryType),
                             Integer.parseInt(ifType),
                             address, true);
+					logMessages += ", entry added";
 					
                     bxlConfigLoader.saveFile();
+					logMessages += ", save file";
 
                 } catch (JSONException e) {
                     e.printStackTrace();
