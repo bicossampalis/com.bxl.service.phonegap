@@ -112,9 +112,12 @@ public class BXLService extends CordovaPlugin {
 			}
 
 			posPrinter = new POSPrinter(context);
-		} catch (JposException ex) {
+		} 
+		catch (JSONException ex) {
 			logMessages += "," + ex.getMessage();
-		}   
+		} catch (Exception ex1) {
+			logMessages += "," + ex1.getMessage();
+		}
     }
 
     @Override
