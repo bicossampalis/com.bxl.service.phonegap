@@ -108,7 +108,7 @@ public class BXLService extends CordovaPlugin {
 		try {
 			if (bxlConfigLoader == null) {
 				bxlConfigLoader = new BXLConfigLoader(context);
-				bxlConfigLoader = new MyBXLConfigLoader(context);
+				//bxlConfigLoader = new MyBXLConfigLoader(context);
 			}
 
 			posPrinter = new POSPrinter(context);
