@@ -35,41 +35,6 @@
             type="String"
             value="false" />
     </JposEntry>
-	
-	<JposEntry logicalName="SPP-R200" >
-        <creation
-            factoryClass="bixolon_printer.MyServiceInstanceFactory"
-            serviceClass="bixolon_printer.POSPrinterService1000" />
-
-        <vendor
-            name="BIXOLON"
-            url="http://www.bixolon.com" />
-
-        <jpos
-            category="POSPrinter"
-            version="1.14" />
-
-        <product
-            name="SPP-R200"
-            description="Compact yet Rugged 2 inch Thermal Mobile Printer"
-            url="http://www.bixolon.com" />
-
-        <!-- Other non JavaPOS required property (mostly vendor properties and bus specific properties i.e. RS232 ) -->
-        <prop
-            name="deviceBus"
-            type="String"
-            value="Unknown" />
-        <prop
-            name="address"
-            type="String"
-            value="" />
-        <prop
-            name="secure"
-            type="String"
-            value="false" />
-    </JposEntry>
-	
-	
     <JposEntry logicalName="SPP-R200II" >
         <creation
             factoryClass="com.bxl.loader.ServiceInstanceFactory"
