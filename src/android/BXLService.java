@@ -426,10 +426,10 @@ public class BXLService extends CordovaPlugin {
 					
 					logMessages += ", entry added";
 					
-					/*
+					
 					String entriesLog = bxlConfigLoader.getJposEntryManagerEntries();
 					logMessages += ",Entries:" + entriesLog;
-					*/
+					
 					
                     bxlConfigLoader.saveFile();
 					logMessages += ", save file";
