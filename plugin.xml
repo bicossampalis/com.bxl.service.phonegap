@@ -2,7 +2,7 @@
 <plugin xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns="http://apache.org/cordova/ns/plugins/1.0"
  id="com.bxl.service.phonegap"
- version="1.36">
+ version="1.37">
     <name>BXL SDK for Android_UPOS Compliant</name>
     <description>BXL SDK for Android_UPOS Compliant Plugin</description>
     <author>BIXOLON</author>
@@ -31,7 +31,6 @@
         </config-file>
         <source-file src="src/android/BXLService.java" target-dir="src/com/bxl/service/phonegap" />
 	
-		<lib-file arch="device" src="libs/android.jar" />
 		<lib-file arch="device" src="libs/bixolon_printer.jar" />
         <lib-file arch="device" src="libs/bixolon_printer_v122.jar" />
         <lib-file arch="device" src="libs/bixolon_pdf.jar" />
