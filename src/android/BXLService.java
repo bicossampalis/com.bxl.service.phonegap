@@ -18,8 +18,8 @@ import org.json.JSONException;
 
 //import com.bxl.jsbridge.JSBridge;
 
-//import com.bxl.config.editor.BXLConfigLoader;
-import bixolon_printer.MyBXLConfigLoader;
+import com.bxl.config.editor.BXLConfigLoader;
+//import bixolon_printer.MyBXLConfigLoader;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -94,8 +94,8 @@ public class BXLService extends CordovaPlugin {
     BluetoothAdapter mBTAdapter;
     Set<BluetoothDevice> pairedDevices;
 
-	//private static BXLConfigLoader bxlConfigLoader = null;
-    private static MyBXLConfigLoader bxlConfigLoader = null;
+	private static BXLConfigLoader bxlConfigLoader = null;
+    //private static MyBXLConfigLoader bxlConfigLoader = null;
 
     private String mAddress = "";
 
@@ -107,8 +107,8 @@ public class BXLService extends CordovaPlugin {
 
 		try {
 			if (bxlConfigLoader == null) {
-				//bxlConfigLoader = new BXLConfigLoader(context);
-				bxlConfigLoader = new MyBXLConfigLoader(context);
+				bxlConfigLoader = new BXLConfigLoader(context);
+				//bxlConfigLoader = new MyBXLConfigLoader(context);
 			}
 
 			posPrinter = new POSPrinter(context);
@@ -399,42 +399,45 @@ public class BXLService extends CordovaPlugin {
                     }
 
                     for (Object entry : bxlConfigLoader.getEntries()) {
-                        JposEntry jposEntry = (JposEntry) entry;
+
+						JposEntry jposEntry = (JposEntry) entry;
+						logMessages += ",JposEntry:" + jposEntry.getLogicalName();
+						
                         bxlConfigLoader.removeEntry(jposEntry.getLogicalName());
+						
                     }
 					
 					logMessages += ", removed entries";
-					
-					/*
+
+
                     bxlConfigLoader.addEntry((ldn == null || ldn.length() <= 0) ? productName : ldn,
                             Integer.parseInt(categoryType),
                             productName,
                             Integer.parseInt(ifType),
                             address);
-					*/
-					
+
+
 					logMessages += ", adding entry";
-					
-					
+
+					/*
 					String addEntryLogger = bxlConfigLoader.addEntry(productName,
                             Integer.parseInt(categoryType),
                             Integer.parseInt(ifType),
                             address, false);
+							
 
 					callbackContext.error(addEntryLogger);
-						
+					*/
 					
 					logMessages += ", entry added";
 					
-					
+					/*
 					String entriesLog = bxlConfigLoader.getJposEntryManagerEntries();
 					logMessages += ",Entries:" + entriesLog;
-					
+					*/
 					
                     bxlConfigLoader.saveFile();
 					logMessages += ", save file";
-
-					
 					
 					
                 } catch (JSONException e) {
