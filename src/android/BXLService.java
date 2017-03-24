@@ -306,7 +306,7 @@ public class BXLService extends CordovaPlugin {
                 callbackContext.success();
             } else if (method.equals(METHOD_CLAIM)) {
 			
-				callbackContext.error(InternalLogMessages.Message);
+				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
 			
                 posPrinter.claim(args.getInt(1));
                 callbackContext.success();
