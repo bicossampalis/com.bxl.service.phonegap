@@ -305,9 +305,6 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.close();
                 callbackContext.success();
             } else if (method.equals(METHOD_CLAIM)) {
-			
-				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
-			
                 posPrinter.claim(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_RELEASE)) {
@@ -451,6 +448,7 @@ public class BXLService extends CordovaPlugin {
                     e.printStackTrace();
                     callbackContext.error(e.getMessage());
                 }
+				
                 ///////////////////////////////
                 callbackContext.success();
             }else {
@@ -458,13 +456,20 @@ public class BXLService extends CordovaPlugin {
                 return false;
             }
 
+			if (bixolon_printer.InternalLogMessages.Message != "")
+				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
+			
             return true;
         } catch (JposException e) {
             e.printStackTrace();
+			if (bixolon_printer.InternalLogMessages.Message != "")
+				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
             callbackContext.error(e.getMessage());
             return false;
         } catch (JSONException e) {
             e.printStackTrace();
+			if (bixolon_printer.InternalLogMessages.Message != "")
+				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
             callbackContext.error(e.getMessage());
             return false;
         }
