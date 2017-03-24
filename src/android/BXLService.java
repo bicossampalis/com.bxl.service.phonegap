@@ -305,7 +305,7 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.close();
                 callbackContext.success();
             } else if (method.equals(METHOD_CLAIM)) {
-                posPrinter.claim(args.getInt(1));
+                posPrinter.myclaim(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_RELEASE)) {
                 posPrinter.release();
