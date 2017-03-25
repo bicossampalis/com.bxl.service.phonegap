@@ -19,7 +19,7 @@ import org.json.JSONException;
 //import com.bxl.jsbridge.JSBridge;
 
 //import com.bxl.config.editor.BXLConfigLoader;
-import bixolon_printer.MyBXLConfigLoader;
+import bixolon_printer.EpsBXLConfigLoader;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -95,7 +95,7 @@ public class BXLService extends CordovaPlugin {
     Set<BluetoothDevice> pairedDevices;
 
 	//private static BXLConfigLoader bxlConfigLoader = null;
-    private static MyBXLConfigLoader bxlConfigLoader = null;
+    private static EpsBXLConfigLoader bxlConfigLoader = null;
 
     private String mAddress = "";
 
@@ -108,7 +108,7 @@ public class BXLService extends CordovaPlugin {
 		try {
 			if (bxlConfigLoader == null) {
 				//bxlConfigLoader = new BXLConfigLoader(context);
-				bxlConfigLoader = new MyBXLConfigLoader(context);
+				bxlConfigLoader = new EpsBXLConfigLoader(context);
 			}
 
 			posPrinter = new POSPrinter(context);
@@ -379,13 +379,9 @@ public class BXLService extends CordovaPlugin {
                     if (args.length() > 4)
                         ldn = args.getString(4);
 
-					logMessages += ", parsed arguments";
-
                     if (productName == null || categoryType == null || ifType == null || address == null
                             || productName.length() <= 0 || categoryType.length() <= 0 || ifType.length() <= 0
                             || address.length() <= 0) {
-
-
                         callbackContext.error("Argument Error");
                     }
 
@@ -398,46 +394,17 @@ public class BXLService extends CordovaPlugin {
                     }
 
                     for (Object entry : bxlConfigLoader.getEntries()) {
-
-						JposEntry jposEntry = (JposEntry) entry;
-						logMessages += ",JposEntry:" + jposEntry.getLogicalName();
-						
+						JposEntry jposEntry = (JposEntry) entry;					
                         bxlConfigLoader.removeEntry(jposEntry.getLogicalName());
-						
                     }
 					
-					logMessages += ", removed entries";
-
-					/*
-                    bxlConfigLoader.addEntry((ldn == null || ldn.length() <= 0) ? productName : ldn,
-                            Integer.parseInt(categoryType),
-                            productName,
-                            Integer.parseInt(ifType),
-                            address);
-					*/
-
-					logMessages += ", adding entry";
-
-					
-					String addEntryLogger = bxlConfigLoader.addEntry(productName,
+					bxlConfigLoader.addEntry(productName,
                             Integer.parseInt(categoryType),
                             Integer.parseInt(ifType),
                             address, false);
-							
-
-					callbackContext.error(addEntryLogger);
 					
-					
-					logMessages += ", entry added";
-					
-					/*
-					String entriesLog = bxlConfigLoader.getJposEntryManagerEntries();
-					logMessages += ",Entries:" + entriesLog;
-					*/
 					
                     bxlConfigLoader.saveFile();
-					logMessages += ", save file";
-					
 					
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -454,9 +421,6 @@ public class BXLService extends CordovaPlugin {
                 callbackContext.error("Requested function is not defined.");
                 return false;
             }
-
-			if (bixolon_printer.InternalLogMessages.Message != "")
-				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
 			
             return true;
         } catch (JposException e) {
