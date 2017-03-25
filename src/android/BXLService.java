@@ -99,36 +99,17 @@ public class BXLService extends CordovaPlugin {
 
     private String mAddress = "";
 
-	private static String logMessages = "";
-
     public static void setContext(Context context) {
-
-		logMessages += ",2";
-
-		try {
-			if (bxlConfigLoader == null) {
-				//bxlConfigLoader = new BXLConfigLoader(context);
-				bxlConfigLoader = new EpsBXLConfigLoader(context);
-			}
-
-			posPrinter = new POSPrinter(context);
-			
-			logMessages += ",3";
-		} 
-		catch (Exception ex1) {
-			logMessages += "," + ex1.getMessage();
+		if (bxlConfigLoader == null) {
+			//bxlConfigLoader = new BXLConfigLoader(context);
+			bxlConfigLoader = new EpsBXLConfigLoader(context);
 		}
+
+		posPrinter = new POSPrinter(context);
     }
 
     @Override
     public void pluginInitialize() {
-//		if (allowedNavigations == null) {
-//			allowedNavigations = new Whitelist();
-//			allowedIntents = new Whitelist();
-//			allowedRequests = new Whitelist();
-//			new CustomConfigXmlParser().parse(webView.getContext());
-//		}
-		logMessages += "1";
         this.setContext(webView.getContext());
     }
 
@@ -158,19 +139,13 @@ public class BXLService extends CordovaPlugin {
     }
 
     private Bitmap getDecodedBitmap(String base64EncodedData) {
-
         byte[] imageAtBytes = Base64.decode(base64EncodedData.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAtBytes, 0, imageAtBytes.length);
     }
 
     @Override
-    public boolean execute(final String action, final JSONArray args,
-                           final CallbackContext callbackContext) throws JSONException {
-        if (DEBUG) {
-            Log.d(TAG, "execute(" + action + ", " + args + ", "
-                    + callbackContext + ")");
-        }
-
+    public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+        
         if (!action.equals(ACTION_EXECUTE_PRINTER)) {
             callbackContext.error("Action is not matched");
             return false;
@@ -179,124 +154,82 @@ public class BXLService extends CordovaPlugin {
         String method = args.getString(0);
         try {
 			if (method.equals(METHOD_GET_LOG_MESSAGES)) {
-				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
+				
             } else if (method.equals(METHOD_GET_CLAIMED)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getClaimed()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getClaimed()));
             } else if (method.equals(METHOD_GET_DEVICE_ENABLED)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getDeviceEnabled()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getDeviceEnabled()));
             } else if (method.equals(METHOD_SET_DEVICE_ENABLED)) {
                 posPrinter.setDeviceEnabled(args.getBoolean(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_OUTPUT_ID)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getOutputID()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getOutputID()));
             } else if (method.equals(METHOD_GET_POWER_STATE)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getPowerState()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPowerState()));
             } else if (method.equals(METHOD_GET_STATE)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getState()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getState()));
             } else if (method.equals(METHOD_GET_DEVICE_SERVICE_DESCRIPTION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getDeviceServiceDescription()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getDeviceServiceDescription()));
             } else if (method.equals(METHOD_GET_DEVICE_SERVICE_VERSION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getDeviceServiceVersion()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getDeviceServiceVersion()));
             } else if (method.equals(METHOD_GET_PHYSICAL_DEVICE_DESCRIPTION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getPhysicalDeviceDescription()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPhysicalDeviceDescription()));
             } else if (method.equals(METHOD_GET_PHYSICAL_DEVICE_NAME)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getPhysicalDeviceName()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPhysicalDeviceName()));
             } else if (method.equals(METHOD_GET_CAP_REC_NEAR_END_SENSOR)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getCapRecNearEndSensor()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getCapRecNearEndSensor()));
             } else if (method.equals(METHOD_GET_CAP_REC_PAPERCUT)) {
-                callbackContext
-                        .sendPluginResult(new PluginResult(
-                                PluginResult.Status.OK, posPrinter
-                                .getCapRecPapercut()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getCapRecPapercut()));
             } else if (method.equals(METHOD_GET_CAP_REC_MARK_FEED)) {
-                callbackContext
-                        .sendPluginResult(new PluginResult(
-                                PluginResult.Status.OK, posPrinter
-                                .getCapRecMarkFeed()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getCapRecMarkFeed()));
             } else if (method.equals(METHOD_GET_ASYNC_MODE)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getAsyncMode()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getAsyncMode()));
             } else if (method.equals(METHOD_SET_ASYNC_MODE)) {
                 posPrinter.setAsyncMode(args.getBoolean(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_CHARACTER_SET)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getCharacterSet()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getCharacterSet()));
             } else if (method.equals(METHOD_SET_CHARACTER_SET)) {
                 posPrinter.setCharacterSet(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_CHARACTER_SET_LIST)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getCharacterSetList()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getCharacterSetList()));
             } else if (method.equals(METHOD_GET_COVER_OPEN)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getCoverOpen()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getCoverOpen()));
             } else if (method.equals(METHOD_GET_ERROR_LEVEL)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getErrorLevel()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getErrorLevel()));
             } else if (method.equals(METHOD_GET_ERROR_STATION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getErrorStation()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getErrorStation()));
             } else if (method.equals(METHOD_GET_ERROR_STRING)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getErrorString()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getErrorString()));
             } else if (method.equals(METHOD_GET_FONT_TYPEFACE_LIST)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getFontTypefaceList()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getFontTypefaceList()));
             } else if (method.equals(METHOD_GET_PAGE_MODE_AREA)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getPageModeArea()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPageModeArea()));
             } else if (method.equals(METHOD_GET_PAGE_MODE_HORIZONTAL_POSITION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getPageModeHorizontalPosition()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPageModeHorizontalPosition()));
             } else if (method.equals(METHOD_SET_PAGE_MODE_HORIZONTAL_POSITION)) {
                 posPrinter.setPageModeHorizontalPosition(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_PAGE_MODE_PRINT_AREA)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getPageModePrintArea()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPageModePrintArea()));
             } else if (method.equals(METHOD_SET_PAGE_MODE_PRINT_AREA)) {
                 posPrinter.setPageModePrintArea(args.getString(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_PAGE_MODE_PRINT_DIRECTION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getPageModePrintDirection()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPageModePrintDirection()));
             } else if (method.equals(METHOD_SET_PAGE_MODE_PRINT_DIRECTION)) {
                 posPrinter.setPageModePrintDirection(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_PAGE_MODE_VERTICAL_POSITION)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter
-                        .getPageModeVerticalPosition()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getPageModeVerticalPosition()));
             } else if (method.equals(METHOD_SET_PAGE_MODE_VERTICAL_POSITION)) {
                 posPrinter.setPageModeVerticalPosition(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_GET_REC_EMPTY)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getRecEmpty()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getRecEmpty()));
             } else if (method.equals(METHOD_GET_REC_NEAR_END)) {
-                callbackContext.sendPluginResult(new PluginResult(
-                        PluginResult.Status.OK, posPrinter.getRecNearEnd()));
+                callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getRecNearEnd()));
             } else if (method.equals(METHOD_OPEN)) {
                 posPrinter.open(args.getString(1));
                 callbackContext.success();
@@ -325,18 +258,12 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.pageModePrint(args.getInt(1));
                 callbackContext.success();
             } else if (method.equals(METHOD_PRINT_BAR_CODE)) {
-                posPrinter.printBarCode(args.getInt(1), args.getString(2),
-                        args.getInt(3), args.getInt(4), args.getInt(5),
-                        args.getInt(6), args.getInt(7));
+                posPrinter.printBarCode(args.getInt(1), args.getString(2), args.getInt(3), args.getInt(4), args.getInt(5), args.getInt(6), args.getInt(7));
                 callbackContext.success();
             } else if (method.equals(METHOD_PRINT_BITMAP)) {
-                posPrinter.printBitmap(args.getInt(1), args.getString(2),
-                        args.getInt(3), args.getInt(4));
+                posPrinter.printBitmap(args.getInt(1), args.getString(2), args.getInt(3), args.getInt(4));
                 callbackContext.success();
-            }else if (method.equals(METHOD_PRINT_BITMAP_WITH_URL)) {
-                // BitmapDrawable bmpDrawAble = (BitmapDrawable)
-                // context.getResources().getDrawable(R.drawable.sample);
-                // Bitmap image = bmpDrawAble.getBitmap();
+            } else if (method.equals(METHOD_PRINT_BITMAP_WITH_URL)) {
                 String imageURL = args.getString(2);
                 Bitmap image = getBitmap(imageURL);
                 ByteBuffer bitmapbuffer = ByteBuffer.allocate(4);
@@ -344,12 +271,8 @@ public class BXLService extends CordovaPlugin {
                 bitmapbuffer.put((byte) 80);
                 bitmapbuffer.put((byte) 0x00);
                 bitmapbuffer.put((byte) 0x00);
-
                 posPrinter.printBitmap(bitmapbuffer.getInt(0), image, args.getInt(3), args.getInt(4));
-            }else if (method.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
-                // BitmapDrawable bmpDrawAble = (BitmapDrawable)
-                // context.getResources().getDrawable(R.drawable.sample);
-                // Bitmap image = bmpDrawAble.getBitmap();
+            } else if (method.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
                 String base64EncodedData= args.getString(2);
                 Bitmap image = getDecodedBitmap(base64EncodedData); //getBitmap(imageURL);
                 ByteBuffer bitmapbuffer = ByteBuffer.allocate(4);
@@ -357,22 +280,19 @@ public class BXLService extends CordovaPlugin {
                 bitmapbuffer.put((byte) 80);
                 bitmapbuffer.put((byte) 0x00);
                 bitmapbuffer.put((byte) 0x00);
-
                 posPrinter.printBitmap(bitmapbuffer.getInt(0), image, args.getInt(3), args.getInt(4));
-            }
-            else if (method.equals(METHOD_PRINT_NORMAL)) {
+            } else if (method.equals(METHOD_PRINT_NORMAL)) {
                 posPrinter.printNormal(args.getInt(1), args.getString(2));
                 callbackContext.success();
             } else if (method.equals(METHOD_TRANSACTION_PRINT)) {
                 posPrinter.transactionPrint(args.getInt(1), args.getInt(2));
                 callbackContext.success();
             }else if (method.equals(METHOD_ADD_ENTRY)) {
-                ///////////////////////////////
-				logMessages = "Add Entry";
+                
+				
                 try {
-//					JSONArray args = objs.getJSONArray("data");
                     String productName = args.getString(1);
-                    String categoryType = "2";//args.getString(2);
+                    String categoryType = "2";
                     String ifType = args.getString(2);
                     String address = args.getString(3);
                     String ldn = null;
@@ -387,10 +307,8 @@ public class BXLService extends CordovaPlugin {
 
                     try {
                         bxlConfigLoader.openFile();
-						logMessages += ", opened file";
                     } catch (Exception e) {
                         bxlConfigLoader.newFile();
-						logMessages += ", new file";
                     }
 
                     for (Object entry : bxlConfigLoader.getEntries()) {
@@ -403,7 +321,6 @@ public class BXLService extends CordovaPlugin {
                             Integer.parseInt(ifType),
                             address, false);
 					
-					
                     bxlConfigLoader.saveFile();
 					
                 } catch (JSONException e) {
@@ -411,11 +328,9 @@ public class BXLService extends CordovaPlugin {
                     callbackContext.error(e.getMessage());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    e.printStackTrace();
                     callbackContext.error(e.getMessage());
                 }
 				
-                ///////////////////////////////
                 callbackContext.success();
             }else {
                 callbackContext.error("Requested function is not defined.");
@@ -425,14 +340,10 @@ public class BXLService extends CordovaPlugin {
             return true;
         } catch (JposException e) {
             e.printStackTrace();
-			if (bixolon_printer.InternalLogMessages.Message != "")
-				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
             callbackContext.error(e.getMessage());
             return false;
         } catch (JSONException e) {
             e.printStackTrace();
-			if (bixolon_printer.InternalLogMessages.Message != "")
-				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
             callbackContext.error(e.getMessage());
             return false;
         }
