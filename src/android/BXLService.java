@@ -178,9 +178,8 @@ public class BXLService extends CordovaPlugin {
 
         String method = args.getString(0);
         try {
-		
 			if (method.equals(METHOD_GET_LOG_MESSAGES)) {
-				callbackContext.error(logMessages);
+				callbackContext.error(bixolon_printer.InternalLogMessages.Message);
             } else if (method.equals(METHOD_GET_CLAIMED)) {
                 callbackContext.sendPluginResult(new PluginResult(
                         PluginResult.Status.OK, posPrinter.getClaimed()));
