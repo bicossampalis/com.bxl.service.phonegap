@@ -4,6 +4,8 @@ import jpos.JposException;
 import jpos.POSPrinter;
 import jpos.config.JposEntry;
 
+import org.json.JSONObject;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -234,7 +236,9 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.open(args.getString(1));
 
 				if (bixolon_printer.ActionLogger.HasErrors()) {
-					callbackContext.error(bixolon_printer.ActionLogger);
+				JSONObject json = new JSONObject();
+				json.put("Logger",bixolon_printer.ActionLogger);
+					callbackContext.error(json);
 				} else {
 					callbackContext.success();
 				}
