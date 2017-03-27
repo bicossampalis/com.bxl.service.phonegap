@@ -232,7 +232,13 @@ public class BXLService extends CordovaPlugin {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getRecNearEnd()));
             } else if (method.equals(METHOD_OPEN)) {
                 posPrinter.open(args.getString(1));
-                callbackContext.success();
+
+				if (bixolon_printer.ActionLogger.HasErrors()) {
+					callbackContext.error(bixolon_printer.ActionLogger);
+				} else {
+					callbackContext.success();
+				}
+
             } else if (method.equals(METHOD_CLOSE)) {
                 posPrinter.close();
                 callbackContext.success();
@@ -287,7 +293,7 @@ public class BXLService extends CordovaPlugin {
             } else if (method.equals(METHOD_TRANSACTION_PRINT)) {
                 posPrinter.transactionPrint(args.getInt(1), args.getInt(2));
                 callbackContext.success();
-            }else if (method.equals(METHOD_ADD_ENTRY)) {
+            } else if (method.equals(METHOD_ADD_ENTRY)) {
                 
 				
                 try {
@@ -332,7 +338,7 @@ public class BXLService extends CordovaPlugin {
                 }
 				
                 callbackContext.success();
-            }else {
+            } else {
                 callbackContext.error("Requested function is not defined.");
                 return false;
             }
