@@ -211,7 +211,9 @@ public class BXLService extends CordovaPlugin {
 	
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
-        
+        bixolon_printer.ActionLogger.ClearErrors();
+		bixolon_printer.ActionLogger.ClearInfo();
+		bixolon_printer.ActionLogger.ClearLog();
         if (!action.equals(ACTION_EXECUTE_PRINTER)) {
             callbackContext.error("Action is not matched");
             return false;
