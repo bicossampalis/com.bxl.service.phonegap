@@ -38,6 +38,9 @@ public class BXLService extends CordovaPlugin {
 
     private final String ACTION_EXECUTE_PRINTER = "executePrinter";
 
+	private final String METHOD_EPS_PRINT = "epsPrint";
+	
+	
     private final String METHOD_GET_CLAIMED = "getClaimed";
     private final String METHOD_GET_DEVICE_ENABLED = "getDeviceEnabled";
 	private final String METHOD_GET_LOG_MESSAGES = "getLogMessages";
@@ -157,6 +160,55 @@ public class BXLService extends CordovaPlugin {
 		}
 	}
 
+	private void addEntry(final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+		
+		try {
+			String productName = args.getString(1);
+			String categoryType = "2";
+			String ifType = args.getString(2);
+			String address = args.getString(3);
+			String ldn = null;
+			if (args.length() > 4)
+				ldn = args.getString(4);
+
+			if (productName == null || categoryType == null || ifType == null || address == null
+					|| productName.length() <= 0 || categoryType.length() <= 0 || ifType.length() <= 0
+					|| address.length() <= 0) {
+				callbackContext.error("Argument Error");
+			}
+
+			try {
+				bxlConfigLoader.openFile();
+			} catch (Exception e) {
+				bxlConfigLoader.newFile();
+			}
+
+			for (Object entry : bxlConfigLoader.getEntries()) {
+				JposEntry jposEntry = (JposEntry) entry;					
+				bxlConfigLoader.removeEntry(jposEntry.getLogicalName());
+			}
+			
+			bxlConfigLoader.addEntry(productName,
+					Integer.parseInt(categoryType),
+					Integer.parseInt(ifType),
+					address, false);
+			
+			bxlConfigLoader.saveFile();
+			
+			executeResult(callbackContext);
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+			callbackContext.error(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			callbackContext.error(e.getMessage());
+		}
+		
+		callbackContext.success();
+	}
+	
+	
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         
@@ -167,7 +219,57 @@ public class BXLService extends CordovaPlugin {
 
         String method = args.getString(0);
         try {
-			if (method.equals(METHOD_GET_LOG_MESSAGES)) {
+		
+			if (method.equals(METHOD_EPS_PRINT)) {
+			
+				/* Args
+				   1  : Device Model Name
+				   2  : ConnectionType (0: Bluetooth)
+				   3  : Device Address (mac address)
+				   4  : Print Fuction Name (PrintNormal, PrintBitmap, PrintBarcode)
+				   5  : Constant : 2
+				   6  : Print Data
+				   7  : Width (Bitmap print usage)
+				   8  : Alignment (Bitmap print usage)
+				   9  : Symbology (Barcode print usage)
+				   10 : Height (Barcode print usage)
+				   11 : TextPosition (Barcode print usage)
+				   
+				*/
+			
+				addEntry(args, callbackContext);
+				posPrinter.open(args.getString(1));
+				posPrinter.claim(0);
+				posPrinter.setDeviceEnabled(true);
+				
+				String printFunction = args.getString(4);
+				
+				if (printFunction.equals(METHOD_PRINT_NORMAL)) {
+					posPrinter.printNormal(args.getInt(5), args.getString(6));
+				} else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
+				
+					String base64EncodedData= args.getString(6);
+					Bitmap image = getDecodedBitmap(base64EncodedData);
+					
+					ByteBuffer bitmapbuffer = ByteBuffer.allocate(4);
+					bitmapbuffer.put((byte) args.getInt(5));
+					bitmapbuffer.put((byte) 80);
+					bitmapbuffer.put((byte) 0x00);
+					bitmapbuffer.put((byte) 0x00);
+					
+					posPrinter.printBitmap(bitmapbuffer.getInt(0), image, args.getInt(7), args.getInt(8));
+					
+				} else if (printFunction.equals(METHOD_PRINT_BAR_CODE)) {
+					posPrinter.printBarCode(args.getInt(5), args.getString(6), args.getInt(9), args.getInt(10), args.getInt(7), args.getInt(8), args.getInt(11));
+				} 
+				
+				posPrinter.setDeviceEnabled(false);
+				posPrinter.release();
+				posPrinter.close();
+			
+				executeResult(callbackContext);
+			
+			} else if (method.equals(METHOD_GET_LOG_MESSAGES)) {
 				
             } else if (method.equals(METHOD_GET_CLAIMED)) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getClaimed()));
@@ -316,51 +418,7 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.transactionPrint(args.getInt(1), args.getInt(2));
                 callbackContext.success();
             } else if (method.equals(METHOD_ADD_ENTRY)) {
-
-                try {
-                    String productName = args.getString(1);
-                    String categoryType = "2";
-                    String ifType = args.getString(2);
-                    String address = args.getString(3);
-                    String ldn = null;
-                    if (args.length() > 4)
-                        ldn = args.getString(4);
-
-                    if (productName == null || categoryType == null || ifType == null || address == null
-                            || productName.length() <= 0 || categoryType.length() <= 0 || ifType.length() <= 0
-                            || address.length() <= 0) {
-                        callbackContext.error("Argument Error");
-                    }
-
-                    try {
-                        bxlConfigLoader.openFile();
-                    } catch (Exception e) {
-                        bxlConfigLoader.newFile();
-                    }
-
-                    for (Object entry : bxlConfigLoader.getEntries()) {
-						JposEntry jposEntry = (JposEntry) entry;					
-                        bxlConfigLoader.removeEntry(jposEntry.getLogicalName());
-                    }
-					
-					bxlConfigLoader.addEntry(productName,
-                            Integer.parseInt(categoryType),
-                            Integer.parseInt(ifType),
-                            address, false);
-					
-                    bxlConfigLoader.saveFile();
-					
-					executeResult(callbackContext);
-					
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    callbackContext.error(e.getMessage());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    callbackContext.error(e.getMessage());
-                }
-				
-                callbackContext.success();
+				addEntry(args, callbackContext);
             } else {
                 callbackContext.error("Requested function is not defined.");
                 return false;
