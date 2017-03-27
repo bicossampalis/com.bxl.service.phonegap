@@ -145,7 +145,7 @@ public class BXLService extends CordovaPlugin {
         return BitmapFactory.decodeByteArray(imageAtBytes, 0, imageAtBytes.length);
     }
 	
-	private void executeResult(final CallbackContext callbackContext){
+	private void executeResult(final CallbackContext callbackContext) throws JSONException {
 		if (bixolon_printer.ActionLogger.HasErrors()) {
 			JSONObject json = new JSONObject();
 			json.put("Errors", bixolon_printer.ActionLogger.GetErrors());
