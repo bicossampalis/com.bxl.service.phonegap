@@ -236,8 +236,10 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.open(args.getString(1));
 
 				if (bixolon_printer.ActionLogger.HasErrors()) {
-				JSONObject json = new JSONObject();
-				json.put("Logger",bixolon_printer.ActionLogger);
+					JSONObject json = new JSONObject();
+					json.put("Errors", bixolon_printer.ActionLogger.GetErrors());
+					json.put("Info", bixolon_printer.ActionLogger.GetInfo());
+					json.put("Log", bixolon_printer.ActionLogger.GetLogs());
 					callbackContext.error(json);
 				} else {
 					callbackContext.success();
