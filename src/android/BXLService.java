@@ -144,6 +144,18 @@ public class BXLService extends CordovaPlugin {
         byte[] imageAtBytes = Base64.decode(base64EncodedData.getBytes(), Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(imageAtBytes, 0, imageAtBytes.length);
     }
+	
+	private void executeResult(final CallbackContext callbackContext){
+		if (bixolon_printer.ActionLogger.HasErrors()) {
+			JSONObject json = new JSONObject();
+			json.put("Errors", bixolon_printer.ActionLogger.GetErrors());
+			json.put("Info", bixolon_printer.ActionLogger.GetInfo());
+			json.put("Log", bixolon_printer.ActionLogger.GetLogs());
+			callbackContext.error(json);
+		} else {
+			callbackContext.success();
+		}
+	}
 
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
@@ -162,8 +174,10 @@ public class BXLService extends CordovaPlugin {
             } else if (method.equals(METHOD_GET_DEVICE_ENABLED)) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getDeviceEnabled()));
             } else if (method.equals(METHOD_SET_DEVICE_ENABLED)) {
-                posPrinter.setDeviceEnabled(args.getBoolean(1));
-                callbackContext.success();
+                
+				posPrinter.setDeviceEnabled(args.getBoolean(1));
+                executeResult(callbackContext);
+				
             } else if (method.equals(METHOD_GET_OUTPUT_ID)) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getOutputID()));
             } else if (method.equals(METHOD_GET_POWER_STATE)) {
@@ -233,27 +247,25 @@ public class BXLService extends CordovaPlugin {
             } else if (method.equals(METHOD_GET_REC_NEAR_END)) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getRecNearEnd()));
             } else if (method.equals(METHOD_OPEN)) {
-                posPrinter.open(args.getString(1));
-
-				if (bixolon_printer.ActionLogger.HasErrors()) {
-					JSONObject json = new JSONObject();
-					json.put("Errors", bixolon_printer.ActionLogger.GetErrors());
-					json.put("Info", bixolon_printer.ActionLogger.GetInfo());
-					json.put("Log", bixolon_printer.ActionLogger.GetLogs());
-					callbackContext.error(json);
-				} else {
-					callbackContext.success();
-				}
+                
+				posPrinter.open(args.getString(1));
+				executeResult(callbackContext);
 
             } else if (method.equals(METHOD_CLOSE)) {
+			
                 posPrinter.close();
-                callbackContext.success();
+				executeResult(callbackContext);
+
             } else if (method.equals(METHOD_CLAIM)) {
+			
                 posPrinter.claim(args.getInt(1));
-                callbackContext.success();
+				executeResult(callbackContext);
+				
             } else if (method.equals(METHOD_RELEASE)) {
-                posPrinter.release();
-                callbackContext.success();
+                
+				posPrinter.release();
+                executeResult(callbackContext);
+				
             } else if (method.equals(METHOD_CHECK_HEALTH)) {
                 posPrinter.checkHealth(args.getInt(1));
                 callbackContext.success();
@@ -273,8 +285,10 @@ public class BXLService extends CordovaPlugin {
                 posPrinter.printBarCode(args.getInt(1), args.getString(2), args.getInt(3), args.getInt(4), args.getInt(5), args.getInt(6), args.getInt(7));
                 callbackContext.success();
             } else if (method.equals(METHOD_PRINT_BITMAP)) {
-                posPrinter.printBitmap(args.getInt(1), args.getString(2), args.getInt(3), args.getInt(4));
-                callbackContext.success();
+                
+				posPrinter.printBitmap(args.getInt(1), args.getString(2), args.getInt(3), args.getInt(4));
+                executeResult(callbackContext);
+				
             } else if (method.equals(METHOD_PRINT_BITMAP_WITH_URL)) {
                 String imageURL = args.getString(2);
                 Bitmap image = getBitmap(imageURL);
@@ -294,14 +308,15 @@ public class BXLService extends CordovaPlugin {
                 bitmapbuffer.put((byte) 0x00);
                 posPrinter.printBitmap(bitmapbuffer.getInt(0), image, args.getInt(3), args.getInt(4));
             } else if (method.equals(METHOD_PRINT_NORMAL)) {
-                posPrinter.printNormal(args.getInt(1), args.getString(2));
-                callbackContext.success();
+                
+				posPrinter.printNormal(args.getInt(1), args.getString(2));
+				executeResult(callbackContext);
+                
             } else if (method.equals(METHOD_TRANSACTION_PRINT)) {
                 posPrinter.transactionPrint(args.getInt(1), args.getInt(2));
                 callbackContext.success();
             } else if (method.equals(METHOD_ADD_ENTRY)) {
-                
-				
+
                 try {
                     String productName = args.getString(1);
                     String categoryType = "2";
@@ -334,6 +349,8 @@ public class BXLService extends CordovaPlugin {
                             address, false);
 					
                     bxlConfigLoader.saveFile();
+					
+					executeResult(callbackContext);
 					
                 } catch (JSONException e) {
                     e.printStackTrace();
