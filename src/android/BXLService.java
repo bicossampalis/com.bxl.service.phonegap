@@ -40,7 +40,6 @@ public class BXLService extends CordovaPlugin {
 
 	private final String METHOD_EPS_PRINT = "epsPrint";
 	
-	
     private final String METHOD_GET_CLAIMED = "getClaimed";
     private final String METHOD_GET_DEVICE_ENABLED = "getDeviceEnabled";
 	private final String METHOD_GET_LOG_MESSAGES = "getLogMessages";
@@ -91,6 +90,7 @@ public class BXLService extends CordovaPlugin {
     private final String METHOD_PRINT_BITMAP_WITH_URL = "printBitmapWithURL";
     private final String METHOD_PRINT_BITMAP_WITH_BASE64 = "printBitmapWithBase64";
     private final String METHOD_PRINT_NORMAL = "printNormal";
+	private final String METHOD_PRINT_LINE = "printLine";
     private final String METHOD_TRANSACTION_PRINT = "transactionPrint";
     private final String METHOD_ADD_ENTRY = "addEntry";
 
@@ -248,6 +248,12 @@ public class BXLService extends CordovaPlugin {
 				
 				if (printFunction.equals(METHOD_PRINT_NORMAL)) {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
+					
+				} else if (printFunction.equals(METHOD_PRINT_LINE)){
+
+					posPrinter.printLine(args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
+					posPrinter.printNormal(args.getInt(5), args.getString(6));
+					
 				} else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
 				
 					String base64EncodedData= args.getString(6);
