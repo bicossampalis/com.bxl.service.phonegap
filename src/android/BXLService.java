@@ -19,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 //import com.bxl.jsbridge.JSBridge;
-
 //import com.bxl.config.editor.BXLConfigLoader;
 import bixolon_printer.EpsBXLConfigLoader;
 
@@ -249,12 +248,12 @@ public class BXLService extends CordovaPlugin {
 				if (printFunction.equals(METHOD_PRINT_NORMAL)) {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
 					
-				} else if (printFunction.equals(METHOD_PRINT_LINE)){
-
-					posPrinter.printLine(args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
-					posPrinter.printNormal(args.getInt(5), args.getString(6));
-					
-				} else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
+				} 
+				//else if (printFunction.equals(METHOD_PRINT_LINE)){
+					//posPrinter.printLine(args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
+					//posPrinter.printNormal(args.getInt(5), args.getString(6));
+				//} 
+				else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
 				
 					String base64EncodedData= args.getString(6);
 					Bitmap image = getDecodedBitmap(base64EncodedData);
