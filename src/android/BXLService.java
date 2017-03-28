@@ -1,7 +1,10 @@
 package com.bxl.service.phonegap;
 
 import jpos.JposException;
-import jpos.POSPrinter;
+
+//import jpos.POSPrinter;
+import bixolon_printer.EpsPOSPrinter;
+
 import jpos.config.JposEntry;
 
 import org.json.JSONObject;
@@ -18,9 +21,9 @@ import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-//import com.bxl.jsbridge.JSBridge;
 //import com.bxl.config.editor.BXLConfigLoader;
 import bixolon_printer.EpsBXLConfigLoader;
+
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -93,7 +96,8 @@ public class BXLService extends CordovaPlugin {
     private final String METHOD_TRANSACTION_PRINT = "transactionPrint";
     private final String METHOD_ADD_ENTRY = "addEntry";
 
-    private static POSPrinter posPrinter;
+    //private static POSPrinter posPrinter;
+	private static EpsPOSPrinter posPrinter;
 
     BluetoothAdapter mBTAdapter;
     Set<BluetoothDevice> pairedDevices;
@@ -109,7 +113,8 @@ public class BXLService extends CordovaPlugin {
 			bxlConfigLoader = new EpsBXLConfigLoader(context);
 		}
 
-		posPrinter = new POSPrinter(context);
+		//posPrinter = new POSPrinter(context);
+		posPrinter = new EpsPOSPrinter(context);
     }
 
     @Override
@@ -249,10 +254,10 @@ public class BXLService extends CordovaPlugin {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
 					
 				} 
-				//else if (printFunction.equals(METHOD_PRINT_LINE)){
-					//posPrinter.printLine(args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
-					//posPrinter.printNormal(args.getInt(5), args.getString(6));
-				//} 
+				else if (printFunction.equals(METHOD_PRINT_LINE)){
+					posPrinter.printLine(args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
+					posPrinter.printNormal(args.getInt(5), args.getString(6));
+				} 
 				else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
 				
 					String base64EncodedData= args.getString(6);
