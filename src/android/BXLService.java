@@ -92,7 +92,7 @@ public class BXLService extends CordovaPlugin {
     private final String METHOD_PRINT_BITMAP_WITH_URL = "printBitmapWithURL";
     private final String METHOD_PRINT_BITMAP_WITH_BASE64 = "printBitmapWithBase64";
     private final String METHOD_PRINT_NORMAL = "printNormal";
-	private final String METHOD_PRINT_LINE = "printLine";
+	private final String METHOD_PRINT_NORMAL_EPS = "printNormalEps";
     private final String METHOD_TRANSACTION_PRINT = "transactionPrint";
     private final String METHOD_ADD_ENTRY = "addEntry";
 
@@ -252,15 +252,14 @@ public class BXLService extends CordovaPlugin {
 				if (printFunction.equals(METHOD_PRINT_NORMAL)) {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
 				}
-				else if (printFunction.equals(METHOD_PRINT_LINE)){
+				else if (printFunction.equals(METHOD_PRINT_NORMAL_EPS)){
+				
+					bixolon_printer.ActionLogger.AddLog("Calling printNormalEps");
 					
-					//bixolon_printer.ActionLogger.AddLog("Calling printLine");
-					//posPrinter.printLine("", args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
-					//bixolon_printer.ActionLogger.AddLog("Called printLine");
+					posPrinter.printNormalEps(args.getInt(5), args.getString(6));
 					
-					bixolon_printer.ActionLogger.AddLog("Calling printNormal");
-					posPrinter.printNormal(args.getInt(5), args.getString(6));
-					bixolon_printer.ActionLogger.AddLog("Called printNormal");
+					bixolon_printer.ActionLogger.AddLog("Called printNormalEps");
+					
 				} 
 				else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
 				
