@@ -254,13 +254,13 @@ public class BXLService extends CordovaPlugin {
 				}
 				else if (printFunction.equals(METHOD_PRINT_LINE)){
 					
-					bixolon_printer.ActionLogger.AddLog("Calling printLine");
-					posPrinter.printLine("", args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
-					bixolon_printer.ActionLogger.AddLog("Called printLine");
+					//bixolon_printer.ActionLogger.AddLog("Calling printLine");
+					//posPrinter.printLine("", args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
+					//bixolon_printer.ActionLogger.AddLog("Called printLine");
 					
 					bixolon_printer.ActionLogger.AddLog("Calling printNormal");
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
-					bixolon_printer.ActionLogger.AddLog("Calling printNormal");
+					bixolon_printer.ActionLogger.AddLog("Called printNormal");
 				} 
 				else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
 				
