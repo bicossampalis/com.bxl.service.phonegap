@@ -256,7 +256,7 @@ public class BXLService extends CordovaPlugin {
 				
 					bixolon_printer.ActionLogger.AddLog("Calling printNormalEps");
 					
-					posPrinter.printNormalEps(args.getInt(5), args.getString(6));
+					posPrinter.printNormalEps(args.getInt(5), args.getString(6), args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
 					
 					bixolon_printer.ActionLogger.AddLog("Called printNormalEps");
 					
