@@ -217,7 +217,6 @@ public class BXLService extends CordovaPlugin {
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         bixolon_printer.ActionLogger.ClearErrors();
 		bixolon_printer.ActionLogger.ClearInfo();
-		bixolon_printer.ActionLogger.ClearLog();
         if (!action.equals(ACTION_EXECUTE_PRINTER)) {
             callbackContext.error("Action is not matched");
             return false;
@@ -252,7 +251,7 @@ public class BXLService extends CordovaPlugin {
 				
 				if (printFunction.equals(METHOD_PRINT_NORMAL)) {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
-				} 
+				}
 				else if (printFunction.equals(METHOD_PRINT_LINE)){
 					
 					bixolon_printer.ActionLogger.AddLog("Calling printLine");
@@ -288,6 +287,7 @@ public class BXLService extends CordovaPlugin {
 			
 			} else if (method.equals(METHOD_GET_LOG_MESSAGES)) {
 				callbackContext.success(bixolon_printer.ActionLogger.GetLogMessage());
+				bixolon_printer.ActionLogger.ClearLog();
             } else if (method.equals(METHOD_GET_CLAIMED)) {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, posPrinter.getClaimed()));
             } else if (method.equals(METHOD_GET_DEVICE_ENABLED)) {
