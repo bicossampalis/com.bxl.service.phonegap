@@ -27,9 +27,6 @@
 									deviceEnabled ]);
 		};
 		
-		
-
-
 		BXLService.prototype.getOutputID = function(successCallback,
 				errorCallback) {
 			cordova.exec(successCallback, errorCallback, "BXLService",

@@ -195,7 +195,7 @@ public class BXLService extends CordovaPlugin {
 			bxlConfigLoader.addEntry(productName,
 					Integer.parseInt(categoryType),
 					Integer.parseInt(ifType),
-					address, true);
+					address, false);
 			
 			bxlConfigLoader.saveFile();
 			
@@ -212,7 +212,6 @@ public class BXLService extends CordovaPlugin {
 		callbackContext.success();
 	}
 	
-	
     @Override
     public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
         bixolon_printer.ActionLogger.ClearErrors();
@@ -228,17 +227,19 @@ public class BXLService extends CordovaPlugin {
 			if (method.equals(METHOD_EPS_PRINT)) {
 			
 				/* Args
+				
 				   1  : Device Model Name
 				   2  : ConnectionType (0: Bluetooth)
 				   3  : Device Address (mac address)
 				   4  : Print Fuction Name (PrintNormal, PrintBitmap, PrintBarcode)
 				   5  : Constant : 2
-				   6  : Print Data
-				   7  : Width (Bitmap print usage)
-				   8  : Alignment (Bitmap print usage)
-				   9  : Symbology (Barcode print usage)
-				   10 : Height (Barcode print usage)
-				   11 : TextPosition (Barcode print usage)
+				   6  : Print Text
+				   7  : Print Bitmap (Base64)
+				   8  : Width (Bitmap print usage)
+				   9  : Alignment (Bitmap print usage)
+				   10  : Symbology (Barcode print usage)
+				   11 : Height (Barcode print usage)
+				   12 : TextPosition (Barcode print usage)
 				   
 				*/
 			
@@ -253,13 +254,16 @@ public class BXLService extends CordovaPlugin {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
 				}
 				else if (printFunction.equals(METHOD_PRINT_NORMAL_EPS)){
-				
-					bixolon_printer.ActionLogger.AddLog("Calling printNormalEps");
+
+					/* Args
+						7   : Alignment (1:Left, 2: Center, 3: Right)
+						8   : Font Type (1: Font A, 2: Font B, 3: Font C)
+						9   : Underline (1: Off, 2: On)
+						10  : Emphasize (1: Off, 2: On)
+						11  : Height Size    
+					*/
 					
 					posPrinter.printNormalEps(args.getInt(5), args.getString(6), args.getInt(7), args.getInt(8), args.getInt(9), args.getInt(10), args.getInt(11));
-					
-					bixolon_printer.ActionLogger.AddLog("Called printNormalEps");
-					
 				} 
 				else if (printFunction.equals(METHOD_PRINT_BITMAP_WITH_BASE64)) {
 				
