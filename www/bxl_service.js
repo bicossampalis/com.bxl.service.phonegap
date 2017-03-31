@@ -288,10 +288,10 @@
 		
 		BXLService.prototype.epsPrint = function(
 				successCallback, errorCallback, 
-				productName, ifType, bluetoothAddress, printfuctionname, station, data, width, alignment, symbology, height, textPosition
+				productName, ifType, bluetoothAddress, printfuctionname, station, printtext, printbitmapbase64, width, alignment, symbology, height, textPosition
 				) {
 			cordova.exec(successCallback, errorCallback, "BXLService",
-					"executePrinter", [ "epsPrint", productName, ifType, bluetoothAddress, printfuctionname, station, data, width, alignment, symbology, height, textPosition ]);
+					"executePrinter", [ "epsPrint", productName, ifType, bluetoothAddress, printfuctionname, station, printtext, printbitmapbase64, width, alignment, symbology, height, textPosition ]);
 		};
 		
 		

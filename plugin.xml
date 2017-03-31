@@ -2,7 +2,7 @@
 <plugin xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns="http://apache.org/cordova/ns/plugins/1.0"
  id="com.bxl.service.phonegap"
- version="1.95">
+ version="1.96">
     <name>BixolonBluetoothPrinter</name>
     <description>EpsilonNet Plugin for Bixolon Printers</description>
     <author>Epsilon Net</author>
