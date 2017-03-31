@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns="http://apache.org/cordova/ns/plugins/1.0"
- id="com.bxlprint.epsilonnet"
- version="1.93">
+ id="com.bxl.service.phonegap"
+ version="1.94">
     <name>BixolonBluetoothPrinter</name>
     <description>EpsilonNet Plugin for Bixolon Printers</description>
     <author>Epsilon Net</author>
@@ -21,7 +21,7 @@
         <resource-file src="jpos.xml" target="res/raw/jpos.xml" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="BXLService">
-                <param name="android-package" value="com.bxlprint.epsilonnet.BXLService" />
+                <param name="android-package" value="com.bxl.service.phonegap.BXLService" />
             </feature>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest">
