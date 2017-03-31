@@ -252,6 +252,21 @@ public class BXLService extends CordovaPlugin {
 				
 				if (printFunction.equals(METHOD_PRINT_NORMAL)) {
 					posPrinter.printNormal(args.getInt(5), args.getString(6));
+					
+					if (!args.getString(7).equals("")) {
+
+						String base64EncodedData= args.getString(7);
+						Bitmap image = getDecodedBitmap(base64EncodedData);
+
+						ByteBuffer bitmapbuffer = ByteBuffer.allocate(4);
+						bitmapbuffer.put((byte) args.getInt(5));
+						bitmapbuffer.put((byte) 80);
+						bitmapbuffer.put((byte) 0x00);
+						bitmapbuffer.put((byte) 0x00);
+
+						posPrinter.printBitmap(bitmapbuffer.getInt(0), image, args.getInt(8), args.getInt(9));
+						
+					}
 				}
 				else if (printFunction.equals(METHOD_PRINT_NORMAL_EPS)){
 
