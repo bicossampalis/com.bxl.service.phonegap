@@ -1,6 +1,6 @@
 {
   "name": "com.bxl.service.phonegap",
-  "version": "1.96.0",
+  "version": "2.00.0",
   "description": "",
   "main": "index.js",
   "scripts": {

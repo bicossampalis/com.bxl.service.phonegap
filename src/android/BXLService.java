@@ -299,7 +299,7 @@ public class BXLService extends CordovaPlugin {
 				
 				posPrinter.setDeviceEnabled(false);
 				posPrinter.release();
-				posPrinter.close();
+				//posPrinter.close();
 			
 				executeResult(callbackContext);
 			
